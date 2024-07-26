@@ -1,5 +1,3 @@
-package contacts;
-
 import java.util.List;
 import java.util.Scanner;
 
@@ -7,7 +5,7 @@ public class Contacts {
 
     private static final Scanner scanner = new Scanner(System.in);
 
-    static void createContact(List<contacts.Contact> contactsList) {
+    static void createContact(List<Contact> contactsList) {
 
         System.out.println("Enter the name: ");
         String name = scanner.nextLine();
@@ -16,12 +14,12 @@ public class Contacts {
         System.out.println("Enter the number: ");
         String number = scanner.nextLine();
 
-        contacts.Contact contact = new contacts.Contact.ContactBuilder().setName(name).setSurname(surname).setNumber(number).build();
+        Contact contact = new Contact.ContactBuilder().setName(name).setSurname(surname).setNumber(number).build();
         contactsList.add(contact);
         System.out.println("The record added.");
     }
 
-    static void removeContact(List<contacts.Contact> contactsList) {
+    static void removeContact(List<Contact> contactsList) {
 
         if (contactsList.isEmpty()) {
             System.out.println("No records to remove!");
@@ -40,7 +38,7 @@ public class Contacts {
         }
     }
 
-    static void editContact(List<contacts.Contact> contactList) {
+    static void editContact(List<Contact> contactList) {
 
         if (contactList.isEmpty()) {
             System.out.println("No records to edit!");
@@ -53,8 +51,8 @@ public class Contacts {
 
         if (selectedContact >= 0 && selectedContact < contactList.size()) {
 
-            contacts.Contact contact = contactList.get(selectedContact);
-            contacts.Contact.ContactBuilder contactToUpdate = new contacts.Contact.ContactBuilder().
+            Contact contact = contactList.get(selectedContact);
+            Contact.ContactBuilder contactToUpdate = new Contact.ContactBuilder().
                     setName(contact.getName()).setSurname(contact.getSurname()).setNumber(contact.getNumber());
 
             System.out.println("Select a field (name, surname, number): ");
@@ -77,7 +75,7 @@ public class Contacts {
                     contactToUpdate.setNumber(newNumber);
                     break;
             }
-            contacts.Contact updatedContact = contactToUpdate.build();
+            Contact updatedContact = contactToUpdate.build();
             contactList.set(selectedContact, updatedContact);
             System.out.println("The record updated!");
         } else {
@@ -85,7 +83,7 @@ public class Contacts {
         }
     }
 
-    static void listContacts(List<contacts.Contact> contactList) {
+    static void listContacts(List<Contact> contactList) {
 
         for(int i=0; i< contactList.size(); i++) {
             System.out.println((i+1) + ". " + contactList.get(i));
