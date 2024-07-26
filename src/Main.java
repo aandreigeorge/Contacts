@@ -1,13 +1,3 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-
-public class Main {
-    public static void main(String[] args) {
-
-        Contacts.createContact();
-    }
-}
 package contacts;
 
 import java.util.ArrayList;
@@ -23,7 +13,7 @@ public class Main {
 
     static void runContacts() {
 
-        List<Contact> contactsList = new ArrayList<>();
+        List<contacts.Contact> contactsList = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
         String action;
 
@@ -32,11 +22,11 @@ public class Main {
             action = scanner.nextLine().trim().toUpperCase();
 
             switch (action) {
-                case "ADD" -> Contacts.createContact(contactsList);
-                case "REMOVE" -> Contacts.removeContact(contactsList);
-                case "EDIT" -> Contacts.editContact(contactsList);
+                case "ADD" -> contacts.Contacts.createContact(contactsList);
+                case "REMOVE" -> contacts.Contacts.removeContact(contactsList);
+                case "EDIT" -> contacts.Contacts.editContact(contactsList);
                 case "COUNT" -> System.out.println("The Phone Book has " + contactsList.size() + " records");
-                case "LIST" -> Contacts.listContacts(contactsList);
+                case "LIST" -> contacts.Contacts.listContacts(contactsList);
                 case "EXIT" -> System.exit(0);
             }
         }
