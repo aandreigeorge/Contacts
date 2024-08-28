@@ -7,86 +7,184 @@ public class Contacts {
 
     static void createContact(List<Contact> contactsList) {
 
-        System.out.println("Enter the name: ");
-        String name = scanner.nextLine();
-        System.out.println("Enter the surname: ");
-        String surname = scanner.nextLine();
-        System.out.println("Enter the number: ");
-        String number = scanner.nextLine();
+        Contact newContact;
+        System.out.print("Enter the type: ");
+        String type = scanner.nextLine().toUpperCase();
 
-        Contact contact = new Contact.ContactBuilder().setName(name).setSurname(surname).setNumber(number).build();
-        contactsList.add(contact);
-        System.out.println("The record added.");
+        if (type.equals("PERSON")) {
+
+            System.out.print("Enter the name: ");
+            String name = scanner.nextLine();
+
+            System.out.print("Enter the surname: ");
+            String surname = scanner.nextLine();
+
+            System.out.print("Enter the birth date: ");
+            String birthDate = scanner.nextLine();
+            if (!Validation.isValidBirthDate(birthDate)) {
+                System.out.println("Bad birth date!");
+            }
+
+            System.out.print("Enter the gender (M, F): ");
+            String gender = scanner.nextLine();
+            if (!Validation.isValidGender(gender)) {
+                System.out.println("Bad gender!");
+            }
+
+            System.out.print("Enter the number: ");
+            String phoneNumber = scanner.nextLine();
+            if (!Validation.isValidPhoneNumber(phoneNumber)) {
+                System.out.println("Wrong number format!");
+            }
+
+            newContact = new Person(name, surname, birthDate, gender, phoneNumber);
+            contactsList.add(newContact);
+
+        } else if (type.equals("ORGANIZATION")) {
+
+            System.out.print("Enter the organization name: ");
+            String organizationName = scanner.nextLine();
+
+            System.out.print("Enter the address: ");
+            String address = scanner.nextLine();
+
+            System.out.print("Enter the number: ");
+            String phoneNumber = scanner.nextLine();
+            if (!Validation.isValidPhoneNumber(phoneNumber)) {
+                System.out.println("Wrong number format!");
+            }
+
+            newContact = new Organization(organizationName, address, phoneNumber);
+            contactsList.add(newContact);
+
+        }
+
+        System.out.println("The record added.\n");
+
     }
 
     static void removeContact(List<Contact> contactsList) {
 
         if (contactsList.isEmpty()) {
-            System.out.println("No records to remove!");
+            System.out.println("No records to remove!\n");
             return;
         }
 
-        listContacts(contactsList);
+        getInfo(contactsList);
         System.out.println("Select a record: ");
-        int slectedContact = Integer.parseInt(scanner.nextLine()) - 1;
+        int selectedContact = Integer.parseInt(scanner.nextLine()) - 1;
 
-        if (slectedContact >= 0 && slectedContact < contactsList.size()) {
-            contactsList.remove(slectedContact);
-            System.out.println("The record removed!");
+        if (selectedContact >= 0 && selectedContact < contactsList.size()) {
+            contactsList.remove(selectedContact);
+            System.out.println("The record removed!\n");
         } else {
-            System.out.println("Invalid record number");
+            System.out.println("Invalid record number!\n");
         }
     }
 
     static void editContact(List<Contact> contactList) {
 
         if (contactList.isEmpty()) {
-            System.out.println("No records to edit!");
+            System.out.println("No records to edit!\n");
             return;
         }
 
-        listContacts(contactList);
+        listContactEntries(contactList);
         System.out.println("Select a record: ");
         int selectedContact = Integer.parseInt(scanner.nextLine()) - 1;
 
+
         if (selectedContact >= 0 && selectedContact < contactList.size()) {
 
-            Contact contact = contactList.get(selectedContact);
-            Contact.ContactBuilder contactToUpdate = new Contact.ContactBuilder().
-                    setName(contact.getName()).setSurname(contact.getSurname()).setNumber(contact.getNumber());
+            String fieldToUpdate, newFieldInfo;
+            Contact contactToUpdate = contactList.get(selectedContact);
 
-            System.out.println("Select a field (name, surname, number): ");
-            String field = scanner.nextLine().trim().toUpperCase();
+            if (contactToUpdate.isPerson()) {
 
-            switch (field) {
-                case "NAME":
-                    System.out.println("Enter name: ");
-                    String newName = scanner.nextLine();
-                    contactToUpdate.setName(newName);
-                    break;
-                case "SURNAME":
-                    System.out.println("Enter surname: ");
-                    String newSurname = scanner.nextLine();
-                    contactToUpdate.setSurname(newSurname);
-                    break;
-                case "NUMBER":
-                    System.out.println("Enter number: ");
-                    String newNumber = scanner.nextLine();
-                    contactToUpdate.setNumber(newNumber);
-                    break;
+                System.out.println("Select a field (name, surname, birth, gender, number: ");
+                fieldToUpdate = scanner.nextLine().toUpperCase();
+
+                switch (fieldToUpdate) {
+
+                    case "NAME":
+                        System.out.println("Enter name: ");
+                        newFieldInfo = scanner.nextLine();
+                        ((Person) contactToUpdate).setOrUpdateName(newFieldInfo);
+                        break;
+                    case "SURNAME":
+                        System.out.println("Enter surname: ");
+                        newFieldInfo = scanner.nextLine();
+                        ((Person) contactToUpdate).setOrUpdateSurname(newFieldInfo);
+                        break;
+                    case "BIRTH":
+                        System.out.println("Enter birth: ");
+                        newFieldInfo = scanner.nextLine();
+                        ((Person) contactToUpdate).setOrUpdateBirthdate(newFieldInfo);
+                        break;
+                    case "GENDER":
+                        System.out.println("Enter gender: ");
+                        newFieldInfo = scanner.nextLine();
+                        ((Person) contactToUpdate).setOrUpdateGender(newFieldInfo);
+                        break;
+                    case "NUMBER":
+                        System.out.println("Enter number: ");
+                        newFieldInfo = scanner.nextLine();
+                        contactToUpdate.setOrUpdatePhoneNumber(newFieldInfo);
+                        break;
+                }
+
+            } else {
+
+                System.out.println("Select a field (address, number): ");
+                fieldToUpdate = scanner.nextLine().toUpperCase();
+
+                switch (fieldToUpdate) {
+                    case "ADDRESS":
+                        System.out.print("Enter address: ");
+                        newFieldInfo = scanner.nextLine();
+                        ((Organization) contactToUpdate).setOrUpdateAddress(newFieldInfo);
+                        break;
+                    case "NUMBER":
+                        System.out.print("Enter number: ");
+                        newFieldInfo = scanner.nextLine();
+                        contactToUpdate.setOrUpdatePhoneNumber(newFieldInfo);
+                        break;
+                }
+
             }
-            Contact updatedContact = contactToUpdate.build();
-            contactList.set(selectedContact, updatedContact);
-            System.out.println("The record updated!");
+            contactToUpdate.updateLastEditTime();
+            System.out.println("The record updated!\n");
+
         } else {
-            System.out.println("Invalid record number!");
+            System.out.println("Invalid record number!\n");
         }
     }
 
-    static void listContacts(List<Contact> contactList) {
 
-        for(int i=0; i< contactList.size(); i++) {
-            System.out.println((i+1) + ". " + contactList.get(i));
+    static void getInfo(List<Contact> contactList) {
+
+        listContactEntries(contactList);
+
+        System.out.println("Enter index to show info: ");
+        int selectedContact = Integer.parseInt(scanner.nextLine()) - 1;
+        System.out.println(contactList.get(selectedContact) + "\n");
+    }
+
+    private static void listContactEntries(List<Contact> contactList) {
+
+        for (int i = 0; i < contactList.size(); i++) {
+
+            String name;
+            Contact contact = contactList.get(i);
+
+            if (contact.isPerson()) {
+                Person person = (Person) contact;
+                name = person.getName() + " " + person.getSurname();
+            } else {
+                Organization organization = (Organization) contact;
+                name = organization.getName();
+            }
+            System.out.println((i + 1) + ". " + name);
         }
     }
 

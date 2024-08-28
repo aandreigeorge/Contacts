@@ -9,14 +9,14 @@ public class Main {
         runContacts();
     }
 
-    static void runContacts() {
+    private static void runContacts() {
 
         List<Contact> contactsList = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
         String action;
 
         while (true) {
-            System.out.println("Enter action (add, remove, edit, count, list, exit): ");
+            System.out.print("Enter action (add, remove, edit, count, info, exit): ");
             action = scanner.nextLine().trim().toUpperCase();
 
             switch (action) {
@@ -24,7 +24,7 @@ public class Main {
                 case "REMOVE" -> Contacts.removeContact(contactsList);
                 case "EDIT" -> Contacts.editContact(contactsList);
                 case "COUNT" -> System.out.println("The Phone Book has " + contactsList.size() + " records");
-                case "LIST" -> Contacts.listContacts(contactsList);
+                case "INFO" -> Contacts.getInfo(contactsList);
                 case "EXIT" -> System.exit(0);
             }
         }
