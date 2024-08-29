@@ -1,20 +1,20 @@
-Stage 2 Description
+Stage 3 Description
+In this stage, you will write a program that can store not only information about people but also organizations.
 
-Create a menu
+In the real app, you can also store phone numbers of different companies, like your favorite pizza shop or your bank. These organizations don't have a name 
+or a surname; they have an organization name and an address.
 
-Sometimes we need to restrict the ability to change the instance fields. For example, a phone number can't be just any string; it should follow some rules. As you can see here, the phone number format is different for every country, but they all have some elements in common.
+Additionally, a person can have a birth date and gender, but a company can't have that.
 
-So, you should set the field with a phone number to be private and create a getter and setter to this field. The setter should check the value using a regular expression and set the value to the field only if the value satisfies all the rules below:
+Let's use inheritance to solve this issue. There should be a base class containing information relevant to both an organization and a person, like a phone number.
+And there should be two classes that inherit this base class: a class that represents an organization and a class that represents a person.
 
-The phone number should be split into groups using a space or dash. One group is also possible.
-Before the first group, there may or may not be a plus symbol.
-The first group or the second group can be wrapped in parentheses, but there should be no more than one group that is wrapped in parentheses. There may also be no groups wrapped in parentheses.
-A group can contain numbers, uppercase, and lowercase English letters. A group should be at least 2 symbols in length. But the first group may be only one symbol in length.
-If you are struggling with a regular expression that checks all of these, you might check the phone number with only String methods.
-Also, create getters and setters for the name and surname of the person. Besides, there should be a method hasNumber() that checks if the user has a number. Initially, set the number to be an empty string.
+The list of records should contain both people and organizations. You can accomplish that if the list with records contains elements of the base class, not the 
+specific classes.
 
-Create a separate method to check the validity of the phone number. This is standalone logic, and potentially it can be used in multiple places of a class. But this is also a method for internal use. Therefore, mark the method as private.
+There is one problem with that: how can you edit the fields that correspond to specific classes, like the address of an organization? One of the solutions is to
+create a final Boolean field isPerson in the base class. After that, when editing the record, first check this field, then cast to the corresponding class and 
+then edit the field. This is a bad, workaround solution, but we will write a more general solution in the next stage.
 
-This concept of restricting the usage of a class is called encapsulation. This is a self-documented solution for how to use a class.
-
-In this stage, you should write a program that keeps all the records in a list. You should be able to add, remove, edit the records, and get the number of records. If the user inputs an incorrect phone number, you should reset it as empty. If the number is empty, you should write the string [no number] instead of it.
+Also, in this stage, you can improve the base class so that it has more than one field. You should implement fields that store the date of this record creation 
+and the date of the last edit.
