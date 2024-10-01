@@ -1,6 +1,7 @@
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 class Validation {
 
    static boolean isValidPhoneNumber (String number) {
@@ -18,10 +19,12 @@ class Validation {
     }
 
     static boolean isValidGender(String gender) {
-
         gender = gender.toUpperCase();
-
         return gender.equals("M") || gender.equals("F");
+    }
+
+    static boolean isValidInteger(String userInput) {
+        return userInput != null && userInput.matches("-?\\d+");
     }
 
 

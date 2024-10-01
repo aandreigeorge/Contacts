@@ -1,20 +1,28 @@
-Stage 3 Description
-In this stage, you will write a program that can store not only information about people but also organizations.
+Stage 4 Description
 
-In the real app, you can also store phone numbers of different companies, like your favorite pizza shop or your bank. These organizations don't have a name 
-or a surname; they have an organization name and an address.
+Our temporary solution in the previous stage was bad because of every time you want to interact with concrete classes you must check the
+Boolean field then apply different code according to the concrete class. So far so good, you implement this behavior every
+time you need to. However, in a larger application, there can be 100 places or more where you must do this. And at the end of the day,
+a new feature request might come in: implement a third type of records, something that represents an automated system with robots serving 
+the calls. You would be very annoyed that you were forced to find all the places where you interact with concrete classes.
 
-Additionally, a person can have a birth date and gender, but a company can't have that.
+The solution to this problem is a polymorphism.
+Basically, you need to implement the functionality in one place inside a concrete class. All of the derived classes should implement this
+method, and in the base class, there should be an abstract method. In the code, you actually call this abstract method and get different
+code executions in the derived classes.
 
-Let's use inheritance to solve this issue. There should be a base class containing information relevant to both an organization and a person, like a phone number.
-And there should be two classes that inherit this base class: a class that represents an organization and a class that represents a person.
+To solve your problem, you should create several methods:
+A method that returns all of the possible fields this class is able to change.
+A method that takes a string that represents a field that the class is able to change and its new value.
+A method that takes a string representation of the field and returns the value of this field.
+After that, you don't need any Boolean workarounds and type casts; the code will be nice and clean.
 
-The list of records should contain both people and organizations. You can accomplish that if the list with records contains elements of the base class, not the 
-specific classes.
+Also, in this stage, you should implement saving to a file and loading from a file. You can save the Contacts using serialization. You 
+should specify a file you are working with by a command-line argument. This would automatically save the Contacts on the hard drive after
+each action that modifies data. If you don't specify an argument, then you should create a new Contacts and keep it in memory. 
+If you specify a file that doesn't exist, you should create an empty Contacts and save all changes to the newly created file.
 
-There is one problem with that: how can you edit the fields that correspond to specific classes, like the address of an organization? One of the solutions is to
-create a final Boolean field isPerson in the base class. After that, when editing the record, first check this field, then cast to the corresponding class and 
-then edit the field. This is a bad, workaround solution, but we will write a more general solution in the next stage.
+Also, in this stage, you should implement search functionality. For this, you can append all of the values from all of the fields and 
+check if this string contains a search request. It should support regular expressions, too! And, of course, it should be case insensitive.
 
-Also, in this stage, you can improve the base class so that it has more than one field. You should implement fields that store the date of this record creation 
-and the date of the last edit.
+Use an empty line to separate different actions, like in the example.
