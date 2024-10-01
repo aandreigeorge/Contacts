@@ -56,7 +56,7 @@ class ContactManager {
         String action = scanner.nextLine();
 
         if (Validation.isValidInteger(action)) {
-            Contact selectedContact = getContactByIndex(action);
+            Contact selectedContact = findContactByIndex(action);
 
             if (selectedContact != null) {
                 recordMenu(selectedContact);
@@ -84,7 +84,7 @@ class ContactManager {
             action = scanner.nextLine().toUpperCase();
 
             if (Validation.isValidInteger(action)) {
-                Contact selectedContact = getContactByIndex(action);
+                Contact selectedContact = findContactByIndex(action);
 
                 if (selectedContact != null) {
                     recordMenu(selectedContact);
@@ -144,7 +144,7 @@ class ContactManager {
         }
     }
 
-    private Contact getContactByIndex(String userInput) {
+    private Contact findContactByIndex(String userInput) {
 
         int selectedContactIndex = Integer.parseInt(userInput) - 1;
         if (selectedContactIndex >= 0 && selectedContactIndex < contactList.size()) {
